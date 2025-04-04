@@ -3,8 +3,12 @@ import User from "../models/user.model.js";
 
 const protectRoute = async (req, res, next) => {
 	try {
-		const token = req.cookies[process.env.COOKIE_NAME];
-		console.log(token);
+		const authHeader = req.headers.authorization;
+		if (!authHeader || !authHeader.startsWith('Bearer ')) {
+			return res.status(401).json({ error: "Unauthorized - No Token Provided" });
+		}
+
+		const token = authHeader.split(' ')[1];
 		if (!token) {
 			return res.status(401).json({ error: "Unauthorized - No Token Provided" });
 		}
@@ -22,7 +26,6 @@ const protectRoute = async (req, res, next) => {
 		}
 
 		req.user = user;
-
 		next();
 	} catch (error) {
 		console.log("Error in protectRoute middleware: ", error.message);
