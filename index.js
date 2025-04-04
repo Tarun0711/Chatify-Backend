@@ -9,17 +9,19 @@ import authRoutes from './routes/auth.routes.js'
 import messagesRoutes from './routes/message.routes.js'
 import userRoutes from './routes/user.routes.js'
 
-
 const PORT = process.env.PORT || 5000;
 
 dotenv.config();
 
-app.use(cors({
-    origin: 'https://chatify-frontend-six.vercel.app',
+// CORS configuration
+const corsOptions = {
+    origin: ['https://chatify-frontend-six.vercel.app', 'http://localhost:3000'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
-}));
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
