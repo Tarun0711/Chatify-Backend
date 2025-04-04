@@ -7,4 +7,4 @@ const router  = express.Router();
 
 router.get("/", protectRoute, getUsersForSideBar);
 
-export default router;
+export default router; 

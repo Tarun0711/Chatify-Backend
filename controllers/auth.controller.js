@@ -14,13 +14,14 @@ export const loginUser = async (req, res) => {
             })
         }
 
-        generateTokenandSetCookie(user._id, res);
+        const token = generateTokenandSetCookie(user._id, res);
 
         res.status(201).json({
             _id: user._id,
             fullName: user.fullName,
             userName: user.userName,
-            profilePicture: user.profilePicture
+            profilePicture: user.profilePicture,
+            token
         })
     } catch (error) {
         console.log(`Error in login controller: ${error.message}`);
@@ -58,14 +59,15 @@ export const signup = async (req, res) => {
             profilePicture: gender === "male" ? boyProfilePic : girlProfilePic
         })
         if (newUser) {
-            generateTokenandSetCookie(newUser._id, res);
+            const token = generateTokenandSetCookie(newUser._id, res);
             await newUser.save();
 
             res.status(201).json({
                 _id: newUser._id,
                 fullName: newUser.fullName,
                 userName: newUser.userName,
-                profilePicture: newUser.profilePicture
+                profilePicture: newUser.profilePicture,
+                token
             })
         } else {
             res.status(400).json({

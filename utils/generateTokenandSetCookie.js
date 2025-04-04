@@ -10,6 +10,7 @@ const generateTokenAndSetCookie = (userId, res) => {
 		sameSite: "lax", // Changed from strict to lax for CORS
 		secure: process.env.NODE_ENV !== "development",
 	});
+	return token;
 };
 
 export default generateTokenAndSetCookie;
