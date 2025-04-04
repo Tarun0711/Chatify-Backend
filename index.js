@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 5000;
 dotenv.config();
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://chatify-frontend-six.vercel.app',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
