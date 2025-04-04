@@ -52,7 +52,7 @@ export const signup = async (req, res) => {
 
         const newUser = new User({
             fullName,
-            userName,
+            userName, 
             password: hashedPassword,
             gender,
             profilePicture: gender === "male" ? boyProfilePic : girlProfilePic
