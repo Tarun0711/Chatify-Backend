@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import { app, server } from './socket/socket.js';
+import { startMessageConsumer } from './config/kafka.js';
 
 import connectToMongodb from './db/connectToMongodb.js';
 import authRoutes from './routes/auth.routes.js'
@@ -29,7 +30,26 @@ app.use("/api/auth", authRoutes);
 app.use("/api/messages", messagesRoutes);
 app.use("/api/users", userRoutes);
 
-server.listen(PORT, ()=>{
-    connectToMongodb();
-    console.log(`Server is runnning on port ${PORT}`);
-})
+async function startServer() {
+    try {
+        await connectToMongodb();
+        console.log('MongoDB connected successfully');
+
+        try {
+            await startMessageConsumer();
+            console.log('Kafka consumer started successfully');
+        } catch (error) {
+            console.error('Failed to start Kafka consumer:', error);
+            // Continue server startup even if Kafka fails
+        }
+
+        server.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+    } catch (error) {
+        console.error('Failed to start server:', error);
+        process.exit(1); 
+    }
+}
+
+startServer();

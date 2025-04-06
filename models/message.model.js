@@ -14,6 +14,14 @@ const messageSchema = new Schema({
     message: {
         type: String,
         required: true
+    },
+    seen: {
+        type: Boolean,
+        default: false
+    },
+    deleted: {
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true })
 
